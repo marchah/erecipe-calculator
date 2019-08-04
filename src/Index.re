@@ -1,1 +1,1 @@
-ReactDOMRe.renderToElementWithId(<NicBaseSelector />, "index1");
+ReactDOMRe.renderToElementWithId(<Calculator />, "calculator");
