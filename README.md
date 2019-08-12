@@ -1,5 +1,12 @@
 # erecipe-calculator
 
+This project is a simple vape juice recipe calculator.
+
+Example of other calculator:
+
+- http://tools.vaper.ninja/
+- https://www.steam-engine.org/juice.html
+
 ## Run Project
 
 ```sh
