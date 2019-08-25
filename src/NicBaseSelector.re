@@ -93,31 +93,22 @@ let make = (~handleSetNicWeight) => {
              type_="number"
              step=1.0
              value={Js.Int.toString(customNicValue)}
-             onChange={event =>
-               setCustomNicValue(ReactEvent.Form.target(event)##value)
-               |> (
-                 _ =>
-                   handleSetNicWeight(
-                     ReactEvent.Form.target(event)##value,
-                     customNicBase,
-                   )
-               )
-             }
+             onChange={event => {
+               let nic = int_of_string(ReactEvent.Form.target(event)##value);
+               setCustomNicValue(_ => nic);
+               handleSetNicWeight(nic, customNicBase);
+             }}
            />
            <select
              name="nic-custom-selector"
-             onChange={event =>
-               setCustomNicBase(ReactEvent.Form.target(event)##value)
-               |> (
-                 _ =>
-                   handleSetNicWeight(
-                     customNicValue,
-                     Constants.convertStringToBaseType(
-                       ReactEvent.Form.target(event)##value,
-                     ),
-                   )
-               )
-             }>
+             onChange={event => {
+               let base =
+                 Constants.convertStringToBaseType(
+                   ReactEvent.Form.target(event)##value,
+                 );
+               setCustomNicBase(_ => base);
+               handleSetNicWeight(customNicValue, base);
+             }}>
              <option value="PG"> {React.string("PG")} </option>
              <option value="VG"> {React.string("VG")} </option>
            </select>
