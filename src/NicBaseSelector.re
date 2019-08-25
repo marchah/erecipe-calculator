@@ -1,18 +1,17 @@
 type nic = {
   concentration: int,
   base: Constants.base,
-  index: int,
 };
 
 [@react.component]
 let make = (~handleSetNicWeight) => {
   let nicOptions: list(nic) = [
-    {concentration: 100, base: Constants.PG, index: 0},
-    {concentration: 48, base: Constants.PG, index: 1},
-    {concentration: 24, base: Constants.PG, index: 2},
-    {concentration: 100, base: Constants.VG, index: 3},
-    {concentration: 48, base: Constants.VG, index: 4},
-    {concentration: 24, base: Constants.VG, index: 5},
+    {concentration: 100, base: Constants.PG},
+    {concentration: 48, base: Constants.PG},
+    {concentration: 24, base: Constants.PG},
+    {concentration: 100, base: Constants.VG},
+    {concentration: 48, base: Constants.VG},
+    {concentration: 24, base: Constants.VG},
   ];
 
   let (isCustomVisible, setCustomVisible) = React.useState(() => false);
@@ -79,10 +78,9 @@ let make = (~handleSetNicWeight) => {
         )
       }>
       {nicOptions
-       |> List.map(item =>
+       |> List.mapi((index, item) =>
             <option
-              value={Js.Int.toString(item.index)}
-              key={Js.Int.toString(item.index)}>
+              value={Js.Int.toString(index)} key={Js.Int.toString(index)}>
               {ReasonReact.string(
                  Js.Int.toString(item.concentration)
                  ++ "mg "
