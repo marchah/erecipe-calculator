@@ -19,7 +19,7 @@ let make = (~handleSetNicWeight) => {
   let (customNicBase, setCustomNicBase) = React.useState(() => Constants.PG);
 
   let handleSetNicWeight = (nic: int, base: Constants.base) => {
-    let nicConcentration = Js.Int.toFloat(nic / 10);
+    let nicConcentration = Js.Int.toFloat(nic) /. 10.0;
     let nicWeight = nicConcentration *. Constants.nicWeightPerML;
     let tmp = 100.0 -. nicConcentration;
 
