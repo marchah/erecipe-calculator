@@ -46,14 +46,11 @@ let make = (~handleSetNicWeight) => {
       </option>,
     ];
 
-  React.useEffect1(
-    () => {
-      let nicOption = List.hd(nicOptions);
-      handleSetNicWeight(nicOption.concentration, nicOption.base);
-      None;
-    },
-    [||],
-  );
+  React.useEffect0(() => {
+    let nicOption = List.hd(nicOptions);
+    handleSetNicWeight(nicOption.concentration, nicOption.base);
+    None;
+  });
 
   <div>
     <select
