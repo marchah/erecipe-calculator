@@ -41,9 +41,7 @@ let make = (~handleSetNicWeight) => {
   let appendCustomOptionToList = list =>
     list
     @ [
-      <option value="Custom" key="Cutom">
-        {ReasonReact.string("Custom")}
-      </option>,
+      <option value="Custom" key="Cutom"> {React.string("Custom")} </option>,
     ];
 
   React.useEffect0(() => {
@@ -78,7 +76,7 @@ let make = (~handleSetNicWeight) => {
        |> List.mapi((index, item) =>
             <option
               value={Js.Int.toString(index)} key={Js.Int.toString(index)}>
-              {ReasonReact.string(
+              {React.string(
                  Js.Int.toString(item.concentration)
                  ++ "mg "
                  ++ Constants.convertBaseTypeToString(item.base),
@@ -87,7 +85,7 @@ let make = (~handleSetNicWeight) => {
           )
        |> appendCustomOptionToList
        |> Array.of_list
-       |> ReasonReact.array}
+       |> React.array}
     </select>
     {isCustomVisible
        ? <div>
@@ -120,10 +118,10 @@ let make = (~handleSetNicWeight) => {
                    )
                )
              }>
-             <option value="PG"> {ReasonReact.string("PG")} </option>
-             <option value="VG"> {ReasonReact.string("VG")} </option>
+             <option value="PG"> {React.string("PG")} </option>
+             <option value="VG"> {React.string("VG")} </option>
            </select>
          </div>
-       : ReasonReact.null}
+       : React.null}
   </div>;
 };
