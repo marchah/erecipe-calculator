@@ -2,14 +2,14 @@
 let make = () => {
   let (nicWeight, setNicWeight) = React.useState(() => 50.0);
 
-  let preference: Constants.preference = {
+  let preset: Constants.preset = {
     baseRatio: {
       vg: 70,
       pg: 30,
     },
   };
 
-  let (baseRatio, setBaseRatio) = React.useState(() => preference.baseRatio);
+  let (baseRatio, setBaseRatio) = React.useState(() => preset.baseRatio);
 
   <div>
     <div>
@@ -17,10 +17,7 @@ let make = () => {
       <p> {ReasonReact.string(Js.Float.toString(nicWeight))} </p>
     </div>
     <div>
-      <BaseRatioSelector
-        preference=baseRatio
-        handleSetBaseRatio=setBaseRatio
-      />
+      <BaseRatioSelector preset=baseRatio handleSetBaseRatio=setBaseRatio />
     </div>
   </div>;
 };
