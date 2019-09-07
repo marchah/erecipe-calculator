@@ -8,7 +8,6 @@ let make = (~preference: Constants.baseRatioPreference, ~handleSetBaseRatio) => 
       step=1.0
       value={Js.Int.toString(preference.vg)}
       onChange={event => {
-        Js.log(ReactEvent.Form.target(event)##value);
         let value: int =
           ReactEvent.Form.target(event)##value >= 0
             ? ReactEvent.Form.target(event)##value : 0;
@@ -26,7 +25,6 @@ let make = (~preference: Constants.baseRatioPreference, ~handleSetBaseRatio) => 
       step=1.0
       value={Js.Int.toString(preference.pg)}
       onChange={event => {
-        Js.log(ReactEvent.Form.target(event)##value);
         let value: int =
           ReactEvent.Form.target(event)##value >= 0
             ? ReactEvent.Form.target(event)##value : 0;
