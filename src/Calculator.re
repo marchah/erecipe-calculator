@@ -3,6 +3,7 @@ let make = () => {
   let (nicWeight, setNicWeight) = React.useState(() => 50.0);
 
   let preset: Constants.preset = {
+    name: "default",
     baseRatio: {
       vg: 70,
       pg: 30,

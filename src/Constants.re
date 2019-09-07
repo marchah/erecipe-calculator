@@ -15,4 +15,7 @@ type baseRatioPreset = {
   pg: int,
 };
 
-type preset = {baseRatio: baseRatioPreset};
+type preset = {
+  name: string,
+  baseRatio: baseRatioPreset,
+};
