@@ -18,4 +18,5 @@ type baseRatioPreset = {
 type preset = {
   name: string,
   baseRatio: baseRatioPreset,
+  size: int,
 };

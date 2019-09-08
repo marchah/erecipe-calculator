@@ -8,9 +8,11 @@ let make = () => {
       vg: 70,
       pg: 30,
     },
+    size: 100,
   };
 
   let (baseRatio, setBaseRatio) = React.useState(() => preset.baseRatio);
+  let (size, setSize) = React.useState(() => preset.size);
 
   <div>
     <div>
@@ -20,5 +22,6 @@ let make = () => {
     <div>
       <BaseRatioSelector preset=baseRatio handleSetBaseRatio=setBaseRatio />
     </div>
+    <div> <SizeSelector size handleSetSize=setSize /> </div>
   </div>;
 };
