@@ -9,3 +9,14 @@ type base =
 let convertBaseTypeToString = (value: base): string =>
   value === PG ? "PG" : "VG";
 let convertStringToBaseType = (str: string): base => str === "PG" ? PG : VG;
+
+type baseRatioPreset = {
+  vg: int,
+  pg: int,
+};
+
+type preset = {
+  name: string,
+  baseRatio: baseRatioPreset,
+  size: int,
+};
