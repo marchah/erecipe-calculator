@@ -25,16 +25,33 @@ let make = (~initPresetNicBase: Constants.nicBasePreset, ~handleSetNicBase) => {
     | _ => findInitValueIndex(List.tl(list), index + 1)
     };
 
-  React.useEffect0(() => {
+  let setCustomDefaultValue = (initValue: Constants.nicBasePreset) => {
+    print_endline("No such item found!");
+    setCustomVisible(_ => true);
+    handleSetNicBase(initValue);
+  };
+
+  let setInitPresetNicBaseV1 = list =>
     switch (
       List.find(
         (item: Constants.nicBasePreset) => item == initPresetNicBase,
-        nicOptions,
+        list,
       )
     ) {
-    | exception Not_found => print_endline("Not found!")
+    | exception Not_found => setCustomDefaultValue(initPresetNicBase)
     | item => handleSetNicBase(item)
     };
+
+  let rec setInitPresetNicBaseV2 = list =>
+    switch (list) {
+    | [] => setCustomDefaultValue(initPresetNicBase)
+    | [head, ..._] when head == initPresetNicBase => handleSetNicBase(head)
+    | [_, ...tail] => setInitPresetNicBaseV2(tail)
+    };
+
+  React.useEffect0(() => {
+    //setInitPresetNicBaseV1(nicOptions);
+    setInitPresetNicBaseV2(nicOptions);
 
     None;
   });
