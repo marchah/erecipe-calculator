@@ -1,11 +1,6 @@
-type nic = {
-  concentration: int,
-  base: Constants.base,
-};
-
 [@react.component]
-let make = (~handleSetNicWeight) => {
-  let nicOptions: list(nic) = [
+let make = (~initPresetNicBase: Constants.nicBasePreset, ~handleSetNicBase) => {
+  let nicOptions: list(Constants.nicBasePreset) = [
     {concentration: 100, base: Constants.PG},
     {concentration: 48, base: Constants.PG},
     {concentration: 24, base: Constants.PG},
@@ -18,52 +13,54 @@ let make = (~handleSetNicWeight) => {
   let (customNicValue, setCustomNicValue) = React.useState(() => 50);
   let (customNicBase, setCustomNicBase) = React.useState(() => Constants.PG);
 
-  let handleSetNicWeight = (nic: int, base: Constants.base) => {
-    let nicConcentration = Js.Int.toFloat(nic) /. 10.0;
-    let nicWeight = nicConcentration *. Constants.nicWeightPerML;
-    let tmp = 100.0 -. nicConcentration;
-
-    let baseWeight =
-      switch (base) {
-      | PG => tmp *. Constants.pgWeightPerML
-      | VG => tmp *. Constants.vgWeightPerML
-      };
-
-    let result = (nicWeight +. baseWeight) /. 100.0;
-
-    handleSetNicWeight(_ => result);
-  };
-
-  let callHandleSetNicWeight = nicOption => {
-    handleSetNicWeight(nicOption.concentration, nicOption.base);
-  };
-
   let appendCustomOptionToList = list =>
     list
     @ [
       <option value="Custom" key="Cutom"> {React.string("Custom")} </option>,
     ];
 
+  let rec findInitValueIndex = (list, index) =>
+    switch (List.hd(list) == initPresetNicBase) {
+    | true => index
+    | _ => findInitValueIndex(List.tl(list), index + 1)
+    };
+
   React.useEffect0(() => {
-    let nicOption = List.hd(nicOptions);
-    handleSetNicWeight(nicOption.concentration, nicOption.base);
+    switch (
+      List.find(
+        (item: Constants.nicBasePreset) => item == initPresetNicBase,
+        nicOptions,
+      )
+    ) {
+    | exception Not_found => print_endline("Not found!")
+    | item => handleSetNicBase(item)
+    };
+
     None;
   });
 
   <div>
     <select
       name="nic-selector"
+      defaultValue={Js.Int.toString(findInitValueIndex(nicOptions, 0))}
       onChange={event =>
         (
           ReactEvent.Form.target(event)##value === "Custom"
             ? setCustomVisible(_ => true)
-              |> (_ => handleSetNicWeight(customNicValue, customNicBase))
+              |> (
+                _ => {
+                  handleSetNicBase({
+                    base: customNicBase,
+                    concentration: customNicValue,
+                  });
+                }
+              )
             : setCustomVisible(_ => false)
         )
         |> (
           _ =>
             ReactEvent.Form.target(event)##value !== "Custom"
-              ? callHandleSetNicWeight(
+              ? handleSetNicBase(
                   List.nth(
                     nicOptions,
                     int_of_string(ReactEvent.Form.target(event)##value),
@@ -73,7 +70,7 @@ let make = (~handleSetNicWeight) => {
         )
       }>
       {nicOptions
-       |> List.mapi((index, item) =>
+       |> List.mapi((index, item: Constants.nicBasePreset) =>
             <option
               value={Js.Int.toString(index)} key={Js.Int.toString(index)}>
               {React.string(
@@ -96,7 +93,7 @@ let make = (~handleSetNicWeight) => {
              onChange={event => {
                let nic = int_of_string(ReactEvent.Form.target(event)##value);
                setCustomNicValue(_ => nic);
-               handleSetNicWeight(nic, customNicBase);
+               handleSetNicBase({base: customNicBase, concentration: nic});
              }}
            />
            <select
@@ -107,7 +104,7 @@ let make = (~handleSetNicWeight) => {
                    ReactEvent.Form.target(event)##value,
                  );
                setCustomNicBase(_ => base);
-               handleSetNicWeight(customNicValue, base);
+               handleSetNicBase({base, concentration: customNicValue});
              }}>
              <option value="PG"> {React.string("PG")} </option>
              <option value="VG"> {React.string("VG")} </option>

@@ -10,6 +10,11 @@ let convertBaseTypeToString = (value: base): string =>
   value === PG ? "PG" : "VG";
 let convertStringToBaseType = (str: string): base => str === "PG" ? PG : VG;
 
+type nicBasePreset = {
+  base,
+  concentration: int,
+};
+
 type baseRatioPreset = {
   vg: int,
   pg: int,
@@ -17,6 +22,7 @@ type baseRatioPreset = {
 
 type preset = {
   name: string,
+  nicBase: nicBasePreset,
   baseRatio: baseRatioPreset,
   size: int,
 };
