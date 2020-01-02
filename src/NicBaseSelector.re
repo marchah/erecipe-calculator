@@ -110,6 +110,7 @@ let make = (~initPresetNicBase: Constants.nicBasePreset, ~handleSetNicBase) => {
            />
            <select
              name="nic-custom-selector"
+             value={Constants.convertBaseTypeToString(customNicBase)}
              onChange={event => {
                let base =
                  Constants.convertStringToBaseType(
