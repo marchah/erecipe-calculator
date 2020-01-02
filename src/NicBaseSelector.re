@@ -19,19 +19,22 @@ let make = (~initPresetNicBase: Constants.nicBasePreset, ~handleSetNicBase) => {
       <option value="Custom" key="Cutom"> {React.string("Custom")} </option>,
     ];
 
-  let rec findInitValueIndex = (list, index) =>
-    switch (List.hd(list) == initPresetNicBase) {
-    | true => index
-    | _ => findInitValueIndex(List.tl(list), index + 1)
-    };
-
   let setCustomDefaultValue = (initValue: Constants.nicBasePreset) => {
     print_endline("No such item found!");
     setCustomVisible(_ => true);
     handleSetNicBase(initValue);
+    setCustomNicValue(_ => initValue.concentration);
+    setCustomNicBase(_ => initValue.base);
   };
 
-  let setInitPresetNicBaseV1 = list =>
+  let rec findInitValueIndex = (list, index) =>
+    switch (list) {
+    | [] => List.length(nicOptions) // TODO: not working "Customs" not selected when use customs value as preset
+    | [head, ..._] when head == initPresetNicBase => index
+    | [_, ...tail] => findInitValueIndex(tail, index + 1)
+    };
+
+  let setInitPresetNicBase = list =>
     switch (
       List.find(
         (item: Constants.nicBasePreset) => item == initPresetNicBase,
@@ -42,16 +45,8 @@ let make = (~initPresetNicBase: Constants.nicBasePreset, ~handleSetNicBase) => {
     | item => handleSetNicBase(item)
     };
 
-  let rec setInitPresetNicBaseV2 = list =>
-    switch (list) {
-    | [] => setCustomDefaultValue(initPresetNicBase)
-    | [head, ..._] when head == initPresetNicBase => handleSetNicBase(head)
-    | [_, ...tail] => setInitPresetNicBaseV2(tail)
-    };
-
   React.useEffect0(() => {
-    //setInitPresetNicBaseV1(nicOptions);
-    setInitPresetNicBaseV2(nicOptions);
+    setInitPresetNicBase(nicOptions);
 
     None;
   });

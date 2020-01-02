@@ -5,8 +5,8 @@ let make = () => {
   let preset: Constants.preset = {
     name: "default",
     nicBase: {
-      base: Constants.PG,
-      concentration: 99,
+      base: Constants.VG,
+      concentration: 48,
     },
     baseRatio: {
       vg: 70,
